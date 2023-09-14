@@ -2383,26 +2383,56 @@ void Temperature::updateTemperaturesFromRawValues() {
 
   hal.watchdog_refresh(); // Reset because raw_temps_ready was set by the interrupt
 
-  #if TEMP_SENSOR_IS_MAX_TC(0)
-    temp_hotend[0].setraw(READ_MAX_TC(0));
-  #endif
-  #if TEMP_SENSOR_IS_MAX_TC(1)
-    temp_hotend[1].setraw(READ_MAX_TC(1));
-  #endif
-  #if TEMP_SENSOR_IS_MAX_TC(2)
-    temp_hotend[2].setraw(READ_MAX_TC(2));
-  #endif
-  #if TEMP_SENSOR_IS_MAX_TC(REDUNDANT)
-    temp_redundant.setraw(READ_MAX_TC(HEATER_ID(TEMP_SENSOR_REDUNDANT_SOURCE)));
-  #endif
-#if TEMP_SENSOR_0_IS_ADS1118
-    temp_hotend[0].setraw(ads1118_read_raw(0));
-  #endif
-#if TEMP_SENSOR_1_IS_ADS1118
-    temp_hotend[1].setraw(ads1118_read_raw(1));
-  #endif
-  #if HAS_HOTEND
-    HOTEND_LOOP() temp_hotend[e].celsius = analog_to_celsius_hotend(temp_hotend[e].getraw(), e);
+  // Override which sensor to use, allows us to switch E0 to either sensor slot on the
+  // dreamer NX
+  #define PREFERRED_SENSOR 1
+
+  #if PREFERRED_SENSOR
+    #if TEMP_SENSOR_IS_MAX_TC(0)
+      temp_hotend[0].setraw(READ_MAX_TC(PREFERRED_SENSOR));
+    #endif
+    #if TEMP_SENSOR_IS_MAX_TC(1)
+      temp_hotend[1].setraw(READ_MAX_TC(PREFERRED_SENSOR));
+    #endif
+    #if TEMP_SENSOR_IS_MAX_TC(2)
+      temp_hotend[2].setraw(READ_MAX_TC(2));
+    #endif
+    #if TEMP_SENSOR_IS_MAX_TC(REDUNDANT)
+      temp_redundant.setraw(READ_MAX_TC(HEATER_ID(TEMP_SENSOR_REDUNDANT_SOURCE)));
+    #endif
+  #if TEMP_SENSOR_0_IS_ADS1118
+      temp_hotend[0].setraw(ads1118_read_raw(PREFERRED_SENSOR));
+    #endif
+  #if TEMP_SENSOR_1_IS_ADS1118
+      temp_hotend[1].setraw(ads1118_read_raw(PREFERRED_SENSOR));
+    #endif
+    #if HAS_HOTEND
+      HOTEND_LOOP() temp_hotend[e].celsius = analog_to_celsius_hotend(temp_hotend[e].getraw(), e);
+    #endif
+  #else
+
+    #if TEMP_SENSOR_IS_MAX_TC(0)
+      temp_hotend[0].setraw(READ_MAX_TC(0));
+    #endif
+    #if TEMP_SENSOR_IS_MAX_TC(1)
+      temp_hotend[1].setraw(READ_MAX_TC(1));
+    #endif
+    #if TEMP_SENSOR_IS_MAX_TC(2)
+      temp_hotend[2].setraw(READ_MAX_TC(2));
+    #endif
+    #if TEMP_SENSOR_IS_MAX_TC(REDUNDANT)
+      temp_redundant.setraw(READ_MAX_TC(HEATER_ID(TEMP_SENSOR_REDUNDANT_SOURCE)));
+    #endif
+  #if TEMP_SENSOR_0_IS_ADS1118
+      temp_hotend[0].setraw(ads1118_read_raw(0));
+    #endif
+  #if TEMP_SENSOR_1_IS_ADS1118
+      temp_hotend[1].setraw(ads1118_read_raw(1));
+    #endif
+    #if HAS_HOTEND
+      HOTEND_LOOP() temp_hotend[e].celsius = analog_to_celsius_hotend(temp_hotend[e].getraw(), e);
+    #endif
+
   #endif
 
   TERN_(HAS_HEATED_BED,     temp_bed.celsius       = analog_to_celsius_bed(temp_bed.getraw()));

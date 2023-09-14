@@ -300,28 +300,29 @@
  * THERMAL_PROTECTION_HYSTERESIS and/or THERMAL_PROTECTION_PERIOD
  */
 #if ENABLED(THERMAL_PROTECTION_HOTENDS)
-  #define THERMAL_PROTECTION_PERIOD 40        // Seconds
-  #define THERMAL_PROTECTION_HYSTERESIS 4     // Degrees Celsius
+#define THERMAL_PROTECTION_PERIOD 60     // Seconds
+#define THERMAL_PROTECTION_HYSTERESIS 10 // Degrees Celsius
 
-  //#define ADAPTIVE_FAN_SLOWING              // Slow part cooling fan if temperature drops
-  #if BOTH(ADAPTIVE_FAN_SLOWING, PIDTEMP)
-    //#define NO_FAN_SLOWING_IN_PID_TUNING    // Don't slow fan speed during M303
-  #endif
+// #define ADAPTIVE_FAN_SLOWING              // Slow part cooling fan if
+// temperature drops
+#if BOTH(ADAPTIVE_FAN_SLOWING, PIDTEMP)
+// #define NO_FAN_SLOWING_IN_PID_TUNING    // Don't slow fan speed during M303
+#endif
 
-  /**
-   * Whenever an M104, M109, or M303 increases the target temperature, the
-   * firmware will wait for the WATCH_TEMP_PERIOD to expire. If the temperature
-   * hasn't increased by WATCH_TEMP_INCREASE degrees, the machine is halted and
-   * requires a hard reset. This test restarts with any M104/M109/M303, but only
-   * if the current temperature is far enough below the target for a reliable
-   * test.
-   *
-   * If you get false positives for "Heating failed", increase WATCH_TEMP_PERIOD
-   * and/or decrease WATCH_TEMP_INCREASE. WATCH_TEMP_INCREASE should not be set
-   * below 2.
-   */
-  #define WATCH_TEMP_PERIOD  40               // Seconds
-  #define WATCH_TEMP_INCREASE 2               // Degrees Celsius
+/**
+ * Whenever an M104, M109, or M303 increases the target temperature, the
+ * firmware will wait for the WATCH_TEMP_PERIOD to expire. If the temperature
+ * hasn't increased by WATCH_TEMP_INCREASE degrees, the machine is halted and
+ * requires a hard reset. This test restarts with any M104/M109/M303, but only
+ * if the current temperature is far enough below the target for a reliable
+ * test.
+ *
+ * If you get false positives for "Heating failed", increase WATCH_TEMP_PERIOD
+ * and/or decrease WATCH_TEMP_INCREASE. WATCH_TEMP_INCREASE should not be set
+ * below 2.
+ */
+#define WATCH_TEMP_PERIOD 40  // Seconds
+#define WATCH_TEMP_INCREASE 2 // Degrees Celsius
 #endif
 
 /**
@@ -1079,8 +1080,8 @@
  *  X<1>         Set the given parameters only for the X axis.
  *  Y<1>         Set the given parameters only for the Y axis.
  */
-//#define INPUT_SHAPING_X
-//#define INPUT_SHAPING_Y
+#define INPUT_SHAPING_X
+#define INPUT_SHAPING_Y
 #if EITHER(INPUT_SHAPING_X, INPUT_SHAPING_Y)
   #if ENABLED(INPUT_SHAPING_X)
     #define SHAPING_FREQ_X  40          // (Hz) The default dominant resonant frequency on the X axis.
@@ -1092,7 +1093,7 @@
   #endif
   //#define SHAPING_MIN_FREQ  20        // By default the minimum of the shaping frequencies. Override to affect SRAM usage.
   //#define SHAPING_MAX_STEPRATE 10000  // By default the maximum total step rate of the shaped axes. Override to affect SRAM usage.
-  //#define SHAPING_MENU                // Add a menu to the LCD to set shaping parameters.
+#define SHAPING_MENU // Add a menu to the LCD to set shaping parameters.
 #endif
 
 #define AXIS_RELATIVE_MODES { false, false, false, false }
