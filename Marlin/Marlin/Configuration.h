@@ -1553,7 +1553,12 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET { 28, 0, -3.05 }
+
+// Default configuration
+// #define NOZZLE_TO_PROBE_OFFSET { 28, 0, -3.05 }
+// Glass bed configuration
+#define NOZZLE_TO_PROBE_OFFSET                                                 \
+  { 28, 0, -1.70 }
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
