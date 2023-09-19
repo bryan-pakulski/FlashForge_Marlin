@@ -1,3 +1,10 @@
+# About this fork
+This fork captures the changes I have made for my Flashforge Dreamer NX and tracks my current firmware, customisations:
+
+- Input Shaping
+- AUS3D IR Sensor support
+- Swapped E0 extruder temperature sensor to second E1 slot
+
 #  FlashForge/Dremel Marlin 2.1.2.1
 | Classic UI | Color UI | MKS UI |
 |----------|----------|----------|
